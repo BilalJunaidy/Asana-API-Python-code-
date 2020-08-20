@@ -1,2 +1,8 @@
 gid,assignee,completed,created_at,due_on,modified_at,name,notes,parent,start_on,tags,assignee email
-1170494760138889,Bilal Junaidy,False,"['2020-04-08', '15:38:36.446Z']",,"['2020-08-20', '21:27:50.064Z']",REST API Wish List,,,,[],bilal.junaidy@rsmcanada.com
+1170494760138889,Bilal Junaidy,False,2020-04-08,,2020-08-20,REST API Wish List,,,,[],bilal.junaidy@rsmcanada.com
+1189500399360665,,False,2020-08-18,,2020-08-19,Date of the latest comments from each task(I think this is just the last modified date?) - this can tell leaders whether a project is being actively updated or not,,REST API Wish List,,[],
+1189500399360666,,False,2020-08-18,,2020-08-19,Batch extraction of csv export - so we can download data from all projects and append together for dashboarding,,REST API Wish List,,[],
+1189500399360667,,False,2020-08-18,,2020-08-20,Extract more than 2000/3000 line items(there's line item limit with the web csv export),,REST API Wish List,,[],
+1189577271296929,,False,2020-08-18,,2020-08-19,Extract everything from a workspace - for periodic backup purposes,,REST API Wish List,,[],
+1189768504269589,,False,2020-08-19,,2020-08-19,extracting comments from all subtasks related to a task card - ideally in some form that is organized for archiving purposes,,REST API Wish List,,[],
+1189768504269590,,False,2020-08-19,,2020-08-19,"extracting comments from all tasks and subtasks from a project board - this can be too big if the client has a large project, maybe estimate the size/time before proceeding - make sure you don't get banned from using the API :) ",,REST API Wish List,,[],

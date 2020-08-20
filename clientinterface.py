@@ -126,46 +126,42 @@ def get_task_details():
             PAT = PAT_Sheet.Range("B2").Value
             client = asana.Client.access_token(PAT)
 
-            tasks_gid = str(wb.Sheets(3).Range("B32").Value)
+            tasks_gid = str(wb.Sheets(3).Range("B22").Value)
+            tasks_name = str(wb.Sheets(3).Range("A22").Value)
             tasks_list = []
+            tasks_list.append(f'{tasks_gid}')
             
             sub_tasks = client.tasks.get_subtasks_for_task(tasks_gid, {'limit':'10'}, opt_fields=['gid','name'], opt_pretty=True)
             for item in sub_tasks:
-                list = []
-                list.append(item['name'])
-                list.append(item['gid'])
-                tasks_list.append(list)
+                tasks_list.append(item['gid'])
 
-                    
-            tasks_list = []
+            output_list = []
             
-            response = client.tasks.get_task(tasks_gid, opt_pretty=True, opt_fields = ['name','created_at','completed','assignee', 'modified_at', 'due_on','start_on','tags','notes','parent', 'section'])
+            for i, tasks_gid in enumerate(tasks_list):
+                response = client.tasks.get_task(tasks_gid, opt_pretty=True, opt_fields = ['name','created_at','completed','assignee', 'modified_at', 'due_on','start_on','tags','notes','parent', 'section'])
 
-            ##response['Parent'] = 'Learning Path'
+                if i > 0:
+                    response['parent'] = tasks_name
 
-            if len(response['tags']) != 0:
-                response['tags'] = response['tags'][0]['name']
+                if len(response['tags']) != 0:
+                    response['tags'] = response['tags'][0]['name']
+                
+                if not response['assignee'] is None:    
+                    user_gid = response['assignee']['gid']
+                    result = client.users.get_user(user_gid,opt_pretty=True, opt_fields=['name','email'])
+                    response['assignee'] = result['name']
+                    response['assignee email'] = result['email']
             
-            if not response['assignee'] is None:    
-                user_gid = response['assignee']['gid']
-                result = client.users.get_user(user_gid,opt_pretty=True, opt_fields=['name','email'])
-                response['assignee'] = result['name']
-                response['assignee email'] = result['email']
+                output_list.append(response)
+
+            df = pd.DataFrame(output_list)
+
+            df['created_at'] = df['created_at'].str.split("T", expand=True)
+            df['modified_at'] = df['modified_at'].str.split("T", expand=True)
             
-            tasks_list.append(response)
-
-            
-            df = pd.DataFrame(tasks_list)
-
-            df['created_at'] = df['created_at'].str.split("T")
-            ##df['created_at'] = df['created_at'][0]
-
-            df['modified_at'] = df['modified_at'].str.split("T")
-            ##df['modified_at'] = df['modified_at'][0]
-
             df.to_csv('ClientInterfaceOutput.csv', index=False)
 
-##get_task_details()
+get_task_details()
 
 
 
